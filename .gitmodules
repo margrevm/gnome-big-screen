@@ -1,0 +1,3 @@
+[submodule "post-install"]
+	path = post-install
+	url = git@github.com:margrevm/fedora-post-install.git
