@@ -50,7 +50,22 @@ log_warn() {
 }
 
 
-FEDORA_VERSION="$(rpm -E %fedora)"
+FEDORA_VERSION=""
+if command -v rpm >/dev/null 2>&1; then
+  FEDORA_VERSION="$(rpm -E %fedora 2>/dev/null || true)"
+fi
+
+warning_message=""
+if [[ -z "$FEDORA_VERSION" ]]; then
+  warning_message="WARNING: Unable to detect Fedora version. Continue at your own risk."
+elif [[ "$FEDORA_VERSION" != "44" ]]; then
+  warning_message="WARNING: This script targets Fedora 44. Continue at your own risk."
+fi
+
+if [[ -n "$warning_message" ]]; then
+  printf "\033[1;31m%s\033[0m\n" "$warning_message"
+  prompt_continue "Continue at your own risk"
+fi
 
 # ---------------------------------------------------
 # Select hostname
@@ -141,7 +156,7 @@ log_step "Update flatpak packages..."
 sudo flatpak update
 
 # ---------------------------------------------------
-# Mission-specific payloads
+# Mission-specific payloadsThis repo is standalone and includes its own post-install script. Adapt `gnome-big-screen.cfg` to your needs, then pass it as an argument...
 # ---------------------------------------------------
 log_section "Custom installs"
 CUSTOM_INSTALL
