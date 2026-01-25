@@ -7,13 +7,11 @@
 
 ## Running the script
 
-You can either fork this repo and adapt the `template.cfg` configuration to your needs, then pass it as an argument...
-
 ```sh
 # TEST
 curl -L https://github.com/margrevm/gnome-big-screen/archive/refs/heads/main.tar.gz | tar xz
-chmod +x fedora-post-install.bash
-./fedora-post-install.bash template.cfg
+chmod +x install.bash
+./install.bash
 ```
 
 ## Manual steps
