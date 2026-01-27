@@ -49,6 +49,8 @@ log_warn() {
   prompt_continue "Continue anyway"
 }
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
 gset() {
   sudo -u "$DEFAULT_USER" dbus-run-session gsettings "$@"
 }
@@ -194,7 +196,7 @@ log_section "Administration"
 
 log_step "Enabling unattended Fedora updates (dnf-automatic)..."
 
-sudo install -D -m 0644 "$(dirname "$CONFIG_FILE")/etc/dnf/automatic.conf" /etc/dnf/automatic.conf \
+sudo install -D -m 0644 "$SCRIPT_DIR/etc/dnf/automatic.conf" /etc/dnf/automatic.conf \
   || log_warn "Failed to install /etc/dnf/automatic.conf"
 
 sudo systemctl enable --now dnf-automatic.timer || log_warn "Failed to enable dnf-automatic.timer"
@@ -283,43 +285,43 @@ log_section "Installing custom launchers"
 
 log_step "Install Auvio..."
 sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
-  "$(dirname "$0")/desktop/auvio-kiosk.desktop" \
+  "$SCRIPT_DIR/desktop/auvio-kiosk.desktop" \
   "/home/$DEFAULT_USER/.local/share/applications/auvio-kiosk.desktop"
 
 sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
-  "$(dirname "$0")/assets/auvio.png" \
+  "$SCRIPT_DIR/assets/auvio.png" \
   "/home/$DEFAULT_USER/.local/share/icons/hicolor/256x256/apps/auvio.png"
 
 log_step "Install VRT MAX..."
 sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
-  "$(dirname "$0")/desktop/vrt-max-kiosk.desktop" \
+  "$SCRIPT_DIR/desktop/vrt-max-kiosk.desktop" \
   "/home/$DEFAULT_USER/.local/share/applications/vrt-max-kiosk.desktop"
 
 sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
-  "$(dirname "$0")/assets/vrt-max.png" \
+  "$SCRIPT_DIR/assets/vrt-max.png" \
   "/home/$DEFAULT_USER/.local/share/icons/hicolor/256x256/apps/vrt-max.png"
 
 log_step "Install ARTE..."
 sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
-  "$(dirname "$0")/desktop/arte-kiosk.desktop" \
+  "$SCRIPT_DIR/desktop/arte-kiosk.desktop" \
   "/home/$DEFAULT_USER/.local/share/applications/arte-kiosk.desktop"
 
 sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
-  "$(dirname "$0")/assets/arte.png" \
+  "$SCRIPT_DIR/assets/arte.png" \
   "/home/$DEFAULT_USER/.local/share/icons/hicolor/256x256/apps/arte.png"
 
 log_step "Install Youtube..."
 sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
-  "$(dirname "$0")/desktop/vacuumtube.desktop" \
+  "$SCRIPT_DIR/desktop/vacuumtube.desktop" \
   "/home/$DEFAULT_USER/.local/share/applications/vacuumtube.desktop"
 
 sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
-  "$(dirname "$0")/assets/yt.png" \
+  "$SCRIPT_DIR/assets/yt.png" \
   "/home/$DEFAULT_USER/.local/share/icons/hicolor/256x256/apps/yt.png"
 
 log_step "Install Chromium launcher..."
 sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
-  "$(dirname "$0")/desktop/chromium-custom.desktop" \
+  "$SCRIPT_DIR/desktop/chromium-custom.desktop" \
   "/home/$DEFAULT_USER/.local/share/applications/chromium-custom.desktop"
 
 log_step "Pin kiosk launchers to dash..."
