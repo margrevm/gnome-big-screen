@@ -130,6 +130,13 @@ DNF_REMOVE_PACKAGES=(
   simple-scan
   mediawriter
   gnome-weather
+  libreoffice-base
+  libreoffice-calc
+  libreoffice-core
+  libreoffice-draw
+  libreoffice-impress
+  libreoffice-math
+  libreoffice-writer
 )
 
 log_section "Installing DNF packages"
