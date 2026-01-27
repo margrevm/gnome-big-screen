@@ -333,11 +333,6 @@ gset set org.gnome.shell favorite-apps "['auvio-kiosk.desktop','vrt-max-kiosk.de
 # ---------------------------------------------------
 # Summary
 # ---------------------------------------------------
-log_section "Summary"
-
-log_step "System info..."
-fastfetch
-
-printf "\n[Installation completed!]\n"
+log_section "Installation completed!"
 log_step "Now reboot..."
 cd "$HOME"
