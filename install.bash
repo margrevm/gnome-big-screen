@@ -194,6 +194,83 @@ sudo install -D -m 0644 "$(dirname "$CONFIG_FILE")/etc/dnf/automatic.conf" /etc/
 
 sudo systemctl enable --now dnf-automatic.timer || log_warn "Failed to enable dnf-automatic.timer"
 
+#TODO: Add snapper configuration here
+
+# ---------------------------------------------------
+# GNOME settings
+# ---------------------------------------------------
+log_section "GNOME settings"
+
+# Multitask behavior (disable by default)
+log_step "Dynamic workspaces: off"; gset set org.gnome.mutter dynamic-workspaces false
+log_step "Active Screen Edges: off"; gset set org.gnome.desktop.interface enable-hot-corners false
+log_step "Number of workspaces: 1"; gset set org.gnome.desktop.wm.preferences num-workspaces 1
+
+log_step "Alert sounds: off"; gset set org.gnome.desktop.sound event-sounds false
+log_step "Lock screen notifications: off"; gset set org.gnome.desktop.notifications show-in-lock-screen false
+log_step "Power saving idle delay: never"; gset set org.gnome.desktop.session idle-delay 0
+log_step "Screen lock: off"; gset set org.gnome.desktop.screensaver lock-enabled false
+log_step "Screen blanking: off"; gset set org.gnome.desktop.screensaver idle-activation-enabled false
+log_step "Screen lock delay: never"; gset set org.gnome.desktop.screensaver lock-delay 0
+log_step "Large text: on"; gset set org.gnome.desktop.interface text-scaling-factor 1.25
+log_step "Cursor size: largest"; gset set org.gnome.desktop.interface cursor-size 48
+log_step "Window buttons: minimize/maximize/close"; gset set org.gnome.desktop.wm.preferences button-layout "appmenu:minimize,maximize,close"
+
+# Appearance
+log_step "No icons on the Desktop"; gset set org.gnome.desktop.background show-desktop-icons false
+log_step "GTK theme: Adwaita-dark"; gset set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
+log_step "Color scheme: prefer-dark"; gset set org.gnome.desktop.interface color-scheme "prefer-dark"
+
+# ---------------------------------------------------
+# GNOME Extension settings
+# ---------------------------------------------------
+log_section "GNOME Extension : Dash-to-dock settings"
+log_step "Enable extensions: Dash to Dock + Just Perfection"
+sudo -u "$DEFAULT_USER" dbus-run-session gnome-extensions enable dash-to-dock@micxgx.gmail.com
+
+log_step "Dock position: bottom"; gset set org.gnome.shell.extensions.dash-to-dock dock-position 'BOTTOM'
+log_step "Always center icons: on"; gset set org.gnome.shell.extensions.dash-to-dock always-center-icons true
+log_step "Extend dock to edges"; gset set org.gnome.shell.extensions.dash-to-dock extend-height true
+log_step "Dock fixed (no autohide)"; gset set org.gnome.shell.extensions.dash-to-dock dock-fixed true
+log_step "Autohide: off"; gset set org.gnome.shell.extensions.dash-to-dock autohide false
+log_step "Autohide in fullscreen: off"; gset set org.gnome.shell.extensions.dash-to-dock autohide-in-fullscreen false
+log_step "Intellihide: off"; gset set org.gnome.shell.extensions.dash-to-dock intellihide false
+log_step "Manual hide: off"; gset set org.gnome.shell.extensions.dash-to-dock manualhide false
+
+log_step "Multi-monitor: off (primary only)"; gset set org.gnome.shell.extensions.dash-to-dock multi-monitor false
+
+log_step "Icon size fixed"; gset set org.gnome.shell.extensions.dash-to-dock icon-size-fixed true
+log_step "Icon size: 80px"; gset set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 80
+
+log_step "Icons emblems: off"; gset set org.gnome.shell.extensions.dash-to-dock show-icons-emblems false
+
+log_step "Click action: launch"; gset set org.gnome.shell.extensions.dash-to-dock click-action 'launch'
+log_step "Middle click: nothing"; gset set org.gnome.shell.extensions.dash-to-dock middle-click-action 'nothing'
+log_step "Shift-click: minimize"; gset set org.gnome.shell.extensions.dash-to-dock shift-click-action 'minimize'
+log_step "Scroll action: do nothing"; gset set org.gnome.shell.extensions.dash-to-dock scroll-action 'do-nothing'
+log_step "Scroll switch workspace: off"; gset set org.gnome.shell.extensions.dash-to-dock scroll-switch-workspace false
+log_step "Scroll to focused application: off"; gset set org.gnome.shell.extensions.dash-to-dock scroll-to-focused-application false
+
+log_step "Windows preview: off"; gset set org.gnome.shell.extensions.dash-to-dock show-windows-preview false
+log_step "Default windows preview to open: off"; gset set org.gnome.shell.extensions.dash-to-dock default-windows-preview-to-open false
+
+log_step "Hot keys: off"; gset set org.gnome.shell.extensions.dash-to-dock hot-keys false
+log_step "Hotkeys overlay: off"; gset set org.gnome.shell.extensions.dash-to-dock hotkeys-overlay false
+log_step "Hotkeys show dock: off"; gset set org.gnome.shell.extensions.dash-to-dock hotkeys-show-dock false
+
+log_step "Show favorites only (hide running apps)"; gset set org.gnome.shell.extensions.dash-to-dock show-running false
+log_step "Show favorites: on"; gset set org.gnome.shell.extensions.dash-to-dock show-favorites true
+log_step "Show Show-Apps button: off"; gset set org.gnome.shell.extensions.dash-to-dock show-show-apps-button false
+log_step "Show Apps at top: off"; gset set org.gnome.shell.extensions.dash-to-dock show-apps-at-top false
+log_step "Remove Trash from dock"; gset set org.gnome.shell.extensions.dash-to-dock show-trash false
+log_step "Remove mounted disks from dock"; gset set org.gnome.shell.extensions.dash-to-dock show-mounts false
+log_step "Remove network mounts from dock"; gset set org.gnome.shell.extensions.dash-to-dock show-mounts-network false
+log_step "Show only mounted local disks: off"; gset set org.gnome.shell.extensions.dash-to-dock show-mounts-only-mounted false
+
+log_section "GNOME Extension : Just-perfection settings"
+# TODO: Add just-perfection settings here
+sudo -u "$DEFAULT_USER" dbus-run-session gnome-extensions enable just-perfection-desktop@just-perfection
+
 # ---------------------------------------------------
 # Launchers
 # ---------------------------------------------------
