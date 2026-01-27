@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=VacuumTube
+Comment=Launch VacuumTube
+Exec=flatpak run rocks.shy.VacuumTube
+Icon=yt
+Terminal=false
+Categories=Video;AudioVideo;Network;
