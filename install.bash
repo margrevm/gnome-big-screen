@@ -49,6 +49,10 @@ log_warn() {
   prompt_continue "Continue anyway"
 }
 
+gset() {
+  sudo -u "$DEFAULT_USER" dbus-run-session gsettings "$@"
+}
+
 
 FEDORA_VERSION=""
 if command -v rpm >/dev/null 2>&1; then
@@ -106,7 +110,8 @@ EOL
 # ---------------------------------------------------
 DNF_INSTALL_PACKAGES=(
   dnf-automatic # Automatic updates
-  gnome-shell-extension-dash-to-dock
+  gnome-shell-extension-dash-to-dock    # Gnome extension to customize dock
+  gnome-shell-extension-just-perfection # Extension to remove title bar and more
   gnome-tweaks
   heif-pixbuf-loader
   chromium
@@ -178,42 +183,9 @@ log_step "Update flatpak packages..."
 sudo flatpak update
 
 # ---------------------------------------------------
-# Mission-specific payloadsThis repo is standalone and includes its own post-install script. Adapt `gnome-big-screen.cfg` to your needs, then pass it as an argument...
+# Administration settings
 # ---------------------------------------------------
-log_section "Custom installs"
-CUSTOM_INSTALL
-
-# ---------------------------------------------------
-# GNOME settings
-# ---------------------------------------------------
-log_section "GNOME settings"
-
-log_step "Apply gsettings..."
-log_step "Hot corner: off"
-gsettings set org.gnome.desktop.interface enable-hot-corners false
-
-log_step "Alert sounds: off"
-gsettings set org.gnome.desktop.sound event-sounds false
-
-log_step "Lock screen notifications: off"
-gsettings set org.gnome.desktop.notifications show-in-lock-screen false
-
-log_step "Power saving idle delay: 15 minutes"
-gsettings set org.gnome.desktop.session idle-delay 900
-
-log_step "Screen lock delay: 5 minutes"
-gsettings set org.gnome.desktop.screensaver lock-delay 300
-
-log_step "Power profile: performance"
-gsettings set org.gnome.desktop.interface power-profile performance
-
-log_step "Window buttons: minimize/maximize/close"
-gsettings set org.gnome.desktop.wm.preferences button-layout "appmenu:minimize,maximize,close"
-
-# ---------------------------------------------------
-# Custom steps
-# ---------------------------------------------------
-log_section "Custom steps"
+log_section "Administration"
 
 log_step "Enabling unattended Fedora updates (dnf-automatic)..."
 
