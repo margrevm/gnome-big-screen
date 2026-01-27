@@ -5,7 +5,29 @@
 - Unattended system updates
 - Installs big-screen friendly media apps for Youtube TODO
 
-## Running the script
+## Step by step
+
+### 1. Fedora installation
+
+- Add steps here... TODO
+- During setup create the `admin` user. This user will be used to configure (sudo) your machine whereas `tv` user will auto-login and be used to watch tv.
+
+#### Manual user configuration
+
+```sh
+# admin user
+sudo useradd -m admin
+sudo passwd <YOUR PASSWORD>
+
+# tv user
+sudo useradd -m tv
+
+# To ensure that 'tv' user has no admin rights
+groups tv   
+# You should see NO wheel.
+```
+
+### 2. Run this script
 
 ```sh
 # TEST
@@ -14,7 +36,11 @@ chmod +x install.bash
 ./install.bash
 ```
 
-## Manual steps
+## 3. Manual configuration
+
+- You can set your preferred wallpaper and accent colour under `Settings > Appearance`;
+
+## 4. App configuration
 
 ### VacuumTube (Youtube)
 
@@ -30,9 +56,9 @@ Recommended settings:
 
 ## Notes
 
-* The script is designed to be **interactive** and may prompt for confirmation during execution.
-* It requires `sudo` privileges for system-level changes.
-* As with any "flight plan", validate your config and run through it once before trusting it for repeatable setups.
+- The script is designed to be **interactive** and may prompt for confirmation during execution.
+- It requires `sudo` privileges for system-level changes.
+- As with any "flight plan", validate your config and run through it once before trusting it for repeatable setups.
 
 ## Contributions
 
