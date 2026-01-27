@@ -139,7 +139,10 @@ DNF_REMOVE_PACKAGES=(
   libreoffice-writer
 )
 
-log_section "Installing DNF packages"
+log_section "DNF packages"
+
+log_step "Removing unwanted packages (if present)..."
+sudo dnf remove "${DNF_REMOVE_PACKAGES[@]}" || log_warn "Remove step failed (some packages may be missing)"
 
 log_step "Installing DNF plugin helpers (dnf-plugins-core)..."
 sudo dnf install dnf-plugins-core
@@ -157,11 +160,6 @@ sudo dnf install "${DNF_INSTALL_PACKAGES[@]}"
 
 log_step "Installing multimedia codecs (RPM Fusion)..."
 sudo dnf group install --with-optional multimedia --allowerasing
-
-log_step "Removing unwanted packages (if present)..."
-for pkg in "${DNF_REMOVE_PACKAGES[@]}"; do
-  rpm -q "$pkg" && sudo dnf remove "$pkg" || printf "➜ Skipping %s (not installed)\n" "$pkg"
-done
 
 log_step "Removing unused dependencies..."
 sudo dnf autoremove
