@@ -94,10 +94,14 @@ GDM_CUSTOM_CONF="/etc/gdm/custom.conf"
 log_section "User and auto-login setup"
 
 log_step "Creating user $DEFAULT_USER..."
-# Add user 
+# Add user if missing
+if id -u "$DEFAULT_USER" >/dev/null 2>&1; then
+  log_step "User $DEFAULT_USER already exists; skipping useradd"
+else
 sudo useradd -m "$DEFAULT_USER"
+fi
 # Remove password to allow automatic login
-sudo passwd -d $DEFAULT_USER
+sudo passwd -d "$DEFAULT_USER"
 
 log_step "Configuring automatic login for user $DEFAULT_USER..."
 sudo bash -c "cat >> $GDM_CUSTOM_CONF <<EOL
