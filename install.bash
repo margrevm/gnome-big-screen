@@ -256,15 +256,20 @@ sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
 
 log_step "Install Youtube..."
 sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
-  "$(dirname "$0")/desktop/Youtube.desktop" \
-  "/home/$DEFAULT_USER/.local/share/applications/Youtube.desktop"
+  "$(dirname "$0")/desktop/vacuumtube.desktop" \
+  "/home/$DEFAULT_USER/.local/share/applications/vacuumtube.desktop"
 
 sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
   "$(dirname "$0")/assets/yt.png" \
   "/home/$DEFAULT_USER/.local/share/icons/hicolor/256x256/apps/yt.png"
 
+log_step "Install Chromium launcher..."
+sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
+  "$(dirname "$0")/desktop/chromium-custom.desktop" \
+  "/home/$DEFAULT_USER/.local/share/applications/chromium-custom.desktop"
+
 log_step "Pin kiosk launchers to dash..."
-gset set org.gnome.shell favorite-apps "['auvio-kiosk.desktop','vrt-max-kiosk.desktop','arte-kiosk.desktop','vacuumtube.desktop']"
+gset set org.gnome.shell favorite-apps "['auvio-kiosk.desktop','vrt-max-kiosk.desktop','arte-kiosk.desktop','vacuumtube.desktop','chromium-custom.desktop','com.spotify.Client.desktop']"
 
 # ---------------------------------------------------
 # Summary
