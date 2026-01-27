@@ -98,7 +98,7 @@ log_step "Creating user $DEFAULT_USER..."
 if id -u "$DEFAULT_USER" >/dev/null 2>&1; then
   log_step "User $DEFAULT_USER already exists; skipping useradd"
 else
-sudo useradd -m "$DEFAULT_USER"
+  sudo useradd -m "$DEFAULT_USER"
 fi
 # Remove password to allow automatic login
 sudo passwd -d "$DEFAULT_USER"
@@ -256,7 +256,6 @@ log_step "Icon size: 80px"; gset set org.gnome.shell.extensions.dash-to-dock das
 log_step "Icons emblems: off"; gset set org.gnome.shell.extensions.dash-to-dock show-icons-emblems false
 
 log_step "Click action: launch"; gset set org.gnome.shell.extensions.dash-to-dock click-action 'launch'
-log_step "Middle click: nothing"; gset set org.gnome.shell.extensions.dash-to-dock middle-click-action 'nothing'
 log_step "Shift-click: minimize"; gset set org.gnome.shell.extensions.dash-to-dock shift-click-action 'minimize'
 log_step "Scroll action: do nothing"; gset set org.gnome.shell.extensions.dash-to-dock scroll-action 'do-nothing'
 log_step "Scroll switch workspace: off"; gset set org.gnome.shell.extensions.dash-to-dock scroll-switch-workspace false
