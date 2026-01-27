@@ -62,8 +62,8 @@ fi
 warning_message=""
 if [[ -z "$FEDORA_VERSION" ]]; then
   warning_message="WARNING: Unable to detect Fedora version. Continue at your own risk."
-elif [[ "$FEDORA_VERSION" != "44" ]]; then
-  warning_message="WARNING: This script targets Fedora 44. Continue at your own risk."
+elif [[ "$FEDORA_VERSION" != "43" ]]; then
+  warning_message="WARNING: This script targets Fedora 43. Continue at your own risk."
 fi
 
 if [[ -n "$warning_message" ]]; then
