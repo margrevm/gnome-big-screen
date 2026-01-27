@@ -80,6 +80,28 @@ prompt_continue "Run: sudo hostnamectl set-hostname $NEW_HOSTNAME"
 sudo hostnamectl set-hostname "$NEW_HOSTNAME"
 
 # ---------------------------------------------------
+# Create default user
+# ---------------------------------------------------
+DEFAULT_USER="tv"
+GDM_CUSTOM_CONF="/etc/gdm/custom.conf"
+
+log_section "User and auto-login setup"
+
+log_step "Creating user $DEFAULT_USER..."
+# Add user 
+sudo useradd -m "$DEFAULT_USER"
+# Remove password to allow automatic login
+sudo passwd -d $DEFAULT_USER
+
+log_step "Configuring automatic login for user $DEFAULT_USER..."
+sudo bash -c "cat >> $GDM_CUSTOM_CONF <<EOL
+[daemon]
+AutomaticLoginEnable=True
+AutomaticLogin=$DEFAULT_USER
+EOL
+"
+
+# ---------------------------------------------------
 # DNF repositories and packages
 # ---------------------------------------------------
 DNF_INSTALL_PACKAGES=(
