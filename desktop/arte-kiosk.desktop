@@ -2,7 +2,7 @@
 Type=Application
 Name=ARTE (Kiosk)
 Comment=Launch ARTE in kiosk mode
-Exec=chromium --kiosk --incognito --disable-translate --no-first-run --no-default-browser-check --start-fullscreen https://www.arte.tv/fr/
+Exec=chromium-browser-browser --kiosk --incognito --disable-translate --no-first-run --no-default-browser-check --start-fullscreen https://www.arte.tv/fr/
 Icon=arte
 Terminal=false
 Categories=Network;Video;AudioVideo;

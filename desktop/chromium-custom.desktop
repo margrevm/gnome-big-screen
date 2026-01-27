@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Application
-Name=Chromium
-Comment=Launch Chromium with kiosk-friendly defaults
-Exec=chromium --disable-notifications --disable-translate --disable-session-crashed-bubble
-Icon=chromium
+Name=Chrome
+Comment=Launch Chrome Browser
+Exec=chromium-browser-browser --disable-notifications --disable-translate --disable-session-crashed-bubble
+Icon=chromium-browser-browser
 Terminal=false
 Categories=Network;WebBrowser;

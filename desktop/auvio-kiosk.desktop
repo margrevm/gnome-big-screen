@@ -2,7 +2,7 @@
 Type=Application
 Name=Auvio (Kiosk)
 Comment=Launch RTBF Auvio in kiosk mode
-Exec=chromium --kiosk --incognito --disable-translate --no-first-run --no-default-browser-check --start-fullscreen https://auvio.rtbf.be/
+Exec=chromium-browser-browser --kiosk --incognito --disable-translate --no-first-run --no-default-browser-check --start-fullscreen https://auvio.rtbf.be/
 Icon=auvio
 Terminal=false
 Categories=Network;Video;AudioVideo;
