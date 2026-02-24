@@ -2,7 +2,7 @@
 Type=Application
 Name=Chrome
 Comment=Launch Chrome Browser
-Exec=chromium-browser-browser --disable-notifications --disable-translate --disable-session-crashed-bubble
-Icon=chromium-browser-browser
+Exec=chromium-browser --disable-notifications --disable-translate --disable-session-crashed-bubble
+Icon=chromium-browser
 Terminal=false
 Categories=Network;WebBrowser;

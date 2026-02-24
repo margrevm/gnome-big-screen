@@ -2,7 +2,7 @@
 Type=Application
 Name=VRT MAX (Kiosk)
 Comment=Launch VRT MAX in kiosk mode
-Exec=chromium-browser-browser --kiosk --incognito --disable-translate --no-first-run --no-default-browser-check --start-fullscreen https://www.vrt.be/vrtmax/
+Exec=chromium-browser --kiosk --incognito --disable-translate --no-first-run --no-default-browser-check --start-fullscreen https://www.vrt.be/vrtmax/
 Icon=vrt-max
 Terminal=false
 Categories=Network;Video;AudioVideo;
