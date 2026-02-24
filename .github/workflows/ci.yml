@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  shell-checks:
+    name: Bash Syntax + ShellCheck
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: Collect shell scripts
+        id: scripts
+        shell: bash
+        run: |
+          mapfile -t scripts < <(find . -type f -name "*.bash" | sort)
+          if [ "${#scripts[@]}" -eq 0 ]; then
+            echo "No .bash scripts found" >&2
+            exit 1
+          fi
+          printf '%s\n' "${scripts[@]}" > /tmp/scripts.txt
+          echo "Found ${#scripts[@]} scripts"
+
+      - name: Bash syntax check
+        shell: bash
+        run: |
+          while IFS= read -r script; do
+            bash -n "$script"
+          done < /tmp/scripts.txt
+
+      - name: ShellCheck
+        shell: bash
+        run: |
+          while IFS= read -r script; do
+            shellcheck "$script"
+          done < /tmp/scripts.txt
