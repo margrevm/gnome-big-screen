@@ -1,69 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# -----------------------------------------------------------------------------
-# Post-installation configuration script for Fedora Workstation
-#
-# Copyright (c) 2026 Mike Margreve (mike.margreve@outlook.com)
-# Licensed under the MIT License. You may copy, modify, and distribute this
-# script under the terms of that license.
-#
-# Purpose
-#   Automates common post-install steps on a freshly installed workstation to
-#   establish a consistent baseline for development and daily use, like a
-#   lightweight launch checklist.
-#
-# Usage
-#   1) Review the script before running and adjust variables to your needs.
-#   2) Execute:
-#        chmod +x fedora-post-install.bash
-#        ./fedora-post-install.bash /path/to/config.cfg
-#
-# Notes
-#   - This script is intentionally interactive and will prompt before major
-#     phases and on non-fatal errors (think "go/no-go").
-#   - Administrative privileges (sudo) are required for system changes.
-# -----------------------------------------------------------------------------
-
-prompt_continue() {
-  local prompt="${1:-Continue?}"
-  printf "%s [y/N]: " "$prompt"
-  read -r ans
-  case "${ans:-}" in
-    y|Y|yes|YES) return 0 ;;
-    *) echo "Aborted by user."; exit 1 ;;
-  esac
-}
-
-prompt_yes_no() {
-  local prompt="${1:-Proceed?}"
-  printf "%s [Y/n]: " "$prompt"
-  read -r ans
-  case "${ans:-}" in
-    n|N|no|NO) return 1 ;;
-    *) return 0 ;;
-  esac
-}
-
-log_section() {
-  printf "\n\033[1;34m[%s]\033[0m\n" "$1"
-  prompt_continue "Continue"
-}
-
-log_step() {
-  printf "\033[0;34m➜ %s\033[0m\n" "$1"
-}
-
-log_warn() {
-  printf "\033[1;33mWARN: %s\033[0m\n" "$1"
-  prompt_continue "Continue anyway"
-}
+# GNOME Big Screen setup for Fedora.
+# Interactive by design: each section asks for confirmation before running.
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-
-gset() {
-  sudo -u "$DEFAULT_USER" dbus-run-session gsettings "$@"
-}
+export SCRIPT_DIR
+# shellcheck source=common.bash
+source "$SCRIPT_DIR/common.bash"
 
 
 FEDORA_VERSION=""
@@ -99,6 +43,7 @@ sudo hostnamectl set-hostname "$NEW_HOSTNAME"
 # Create default user
 # ---------------------------------------------------
 DEFAULT_USER="tv"
+export DEFAULT_USER
 GDM_CUSTOM_CONF="/etc/gdm/custom.conf"
 
 log_section "User and auto-login setup"
@@ -212,8 +157,6 @@ sudo install -D -m 0644 "$SCRIPT_DIR/etc/dnf/automatic.conf" /etc/dnf/automatic.
 
 sudo systemctl enable --now dnf-automatic.timer || log_warn "Failed to enable dnf-automatic.timer"
 
-#TODO: Add snapper configuration here
-
 # ---------------------------------------------------
 # GNOME settings
 # ---------------------------------------------------
@@ -285,7 +228,6 @@ log_step "Remove network mounts from dock"; gset set org.gnome.shell.extensions.
 log_step "Show only mounted local disks: off"; gset set org.gnome.shell.extensions.dash-to-dock show-mounts-only-mounted false
 
 log_section "GNOME Extension : Just-perfection settings"
-# TODO: Add just-perfection settings here
 sudo -u "$DEFAULT_USER" dbus-run-session gnome-extensions enable just-perfection-desktop@just-perfection
 
 # ---------------------------------------------------
@@ -305,9 +247,10 @@ sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
   "$SCRIPT_DIR/desktop/shutdown.desktop" \
   "/home/$DEFAULT_USER/.local/share/applications/shutdown.desktop"
 
-log_step "Set initial dock launchers..."
-sudo -u "$DEFAULT_USER" dbus-run-session gsettings set org.gnome.shell favorite-apps \
-  "['chromium-custom.desktop','shutdown.desktop']" || true
+log_step "Set default dock launchers..."
+sudo -u "$DEFAULT_USER" dbus-run-session gsettings set org.gnome.shell favorite-apps "[]" || true
+pin_favorite_app "chromium-custom.desktop"
+pin_favorite_app "shutdown.desktop"
 
 log_section "OPTIONAL LAUNCHERS"
 mapfile -t launcher_scripts < <(find "$SCRIPT_DIR/install.d/launchers" -maxdepth 1 -type f -name "*.bash" | sort)

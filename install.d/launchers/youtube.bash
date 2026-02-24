@@ -15,31 +15,22 @@ set -euo pipefail
 #   youtube.bash tv
 # -----------------------------------------------------------------------------
 DEFAULT_USER="${1:-tv}"
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../" && pwd)"
+# shellcheck source=common.bash
+source "$SCRIPT_DIR/common.bash"
 
-echo "[youtube] Installing Flatpak app (VacuumTube)..."
+log_component_step "youtube" "Installing Flatpak app (VacuumTube)..."
 sudo flatpak install --system -y rocks.shy.VacuumTube
 
-echo "[youtube] Installing desktop launcher..."
+log_component_step "youtube" "Installing desktop launcher..."
 sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
   "$SCRIPT_DIR/desktop/vacuumtube.desktop" \
   "/home/$DEFAULT_USER/.local/share/applications/vacuumtube.desktop"
 
-echo "[youtube] Installing icon..."
+log_component_step "youtube" "Installing icon..."
 sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
   "$SCRIPT_DIR/assets/yt.png" \
   "/home/$DEFAULT_USER/.local/share/icons/hicolor/256x256/apps/yt.png"
 
-# Add launcher to GNOME dock favorites if not already present.
-DESKTOP_ENTRY="vacuumtube.desktop"
-echo "[youtube] Pinning launcher to GNOME dock (if missing)..."
-cur=$(sudo -u "$DEFAULT_USER" dbus-run-session gsettings get org.gnome.shell favorite-apps 2>/dev/null || echo "[]")
-if ! echo "$cur" | grep -F "'$DESKTOP_ENTRY'" >/dev/null; then
-  if [[ "$cur" == "[]" ]]; then
-    new="['$DESKTOP_ENTRY']"
-  else
-    new=$(echo "$cur" | sed -e "s/]$/, '$DESKTOP_ENTRY']/")
-  fi
-  sudo -u "$DEFAULT_USER" dbus-run-session gsettings set org.gnome.shell favorite-apps "$new" || true
-fi
-echo "[youtube] Done."
+log_component_step "youtube" "Pinning launcher to GNOME dock (if missing)..."
+pin_favorite_app "vacuumtube.desktop" "$DEFAULT_USER"
+log_component_step "youtube" "Done."
