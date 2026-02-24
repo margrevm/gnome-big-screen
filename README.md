@@ -3,7 +3,8 @@
 ## Features
 
 - Unattended system updates
-- Installs big-screen friendly media apps for Youtube TODO
+- Interactive launcher selection during install
+- Optional media app launchers for VacuumTube, Spotify, and Stremio
 
 ## Step by step
 
@@ -35,6 +36,14 @@ curl -L https://github.com/margrevm/gnome-big-screen/archive/refs/heads/main.tar
 chmod +x install.bash
 ./install.bash
 ```
+
+During installation, `chromium` and `shutdown` are installed by default.  
+For `youtube` (VacuumTube), `spotify`, and `stremio`, selecting the launcher also installs the Flatpak app.
+
+Launcher behavior:
+- `chromium` and `shutdown` launchers are installed by default.
+- Other launchers are optional and shown one by one during install.
+- Prompt names match launcher script names (for example `youtube`, `spotify`, `stremio`).
 
 ## 3. Manual configuration
 

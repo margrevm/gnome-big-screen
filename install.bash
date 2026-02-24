@@ -35,6 +35,16 @@ prompt_continue() {
   esac
 }
 
+prompt_yes_no() {
+  local prompt="${1:-Proceed?}"
+  printf "%s [Y/n]: " "$prompt"
+  read -r ans
+  case "${ans:-}" in
+    n|N|no|NO) return 1 ;;
+    *) return 0 ;;
+  esac
+}
+
 log_section() {
   printf "\n\033[1;34m[%s]\033[0m\n" "$1"
   prompt_continue "Continue"
@@ -174,10 +184,7 @@ sudo dnf autoremove
 # Installing flatpak packages
 # ---------------------------------------------------
 FLATPAK_INSTALL_PACKAGES=(
-  com.stremio.Stremio
-  com.spotify.Client
   com.mattjakeman.ExtensionManager
-  rocks.shy.VacuumTube
 )
 
 log_section "Installing flatpak packages"
@@ -284,51 +291,36 @@ sudo -u "$DEFAULT_USER" dbus-run-session gnome-extensions enable just-perfection
 # ---------------------------------------------------
 # Launchers
 # ---------------------------------------------------
-log_section "Installing custom launchers"
+log_section "Installing launchers"
 
-log_step "Install Auvio..."
-sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
-  "$SCRIPT_DIR/desktop/auvio-kiosk.desktop" \
-  "/home/$DEFAULT_USER/.local/share/applications/auvio-kiosk.desktop"
+log_section "DEFAULT LAUNCHERS"
 
-sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
-  "$SCRIPT_DIR/assets/auvio.png" \
-  "/home/$DEFAULT_USER/.local/share/icons/hicolor/256x256/apps/auvio.png"
-
-log_step "Install VRT MAX..."
-sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
-  "$SCRIPT_DIR/desktop/vrt-max-kiosk.desktop" \
-  "/home/$DEFAULT_USER/.local/share/applications/vrt-max-kiosk.desktop"
-
-sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
-  "$SCRIPT_DIR/assets/vrt-max.png" \
-  "/home/$DEFAULT_USER/.local/share/icons/hicolor/256x256/apps/vrt-max.png"
-
-log_step "Install ARTE..."
-sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
-  "$SCRIPT_DIR/desktop/arte-kiosk.desktop" \
-  "/home/$DEFAULT_USER/.local/share/applications/arte-kiosk.desktop"
-
-sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
-  "$SCRIPT_DIR/assets/arte.png" \
-  "/home/$DEFAULT_USER/.local/share/icons/hicolor/256x256/apps/arte.png"
-
-log_step "Install Youtube..."
-sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
-  "$SCRIPT_DIR/desktop/vacuumtube.desktop" \
-  "/home/$DEFAULT_USER/.local/share/applications/vacuumtube.desktop"
-
-sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
-  "$SCRIPT_DIR/assets/yt.png" \
-  "/home/$DEFAULT_USER/.local/share/icons/hicolor/256x256/apps/yt.png"
-
-log_step "Install Chromium launcher..."
+log_step "Install chromium launcher (default)..."
 sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
   "$SCRIPT_DIR/desktop/chromium-custom.desktop" \
   "/home/$DEFAULT_USER/.local/share/applications/chromium-custom.desktop"
 
-log_step "Pin kiosk launchers to dash..."
-gset set org.gnome.shell favorite-apps "['auvio-kiosk.desktop','vrt-max-kiosk.desktop','arte-kiosk.desktop','vacuumtube.desktop','chromium-custom.desktop','com.spotify.Client.desktop']"
+log_step "Install shutdown launcher (default)..."
+sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
+  "$SCRIPT_DIR/desktop/shutdown.desktop" \
+  "/home/$DEFAULT_USER/.local/share/applications/shutdown.desktop"
+
+log_step "Set initial dock launchers..."
+sudo -u "$DEFAULT_USER" dbus-run-session gsettings set org.gnome.shell favorite-apps \
+  "['chromium-custom.desktop','shutdown.desktop']" || true
+
+log_section "OPTIONAL LAUNCHERS"
+mapfile -t launcher_scripts < <(find "$SCRIPT_DIR/install.d/launchers" -maxdepth 1 -type f -name "*.bash" | sort)
+for launcher_script in "${launcher_scripts[@]}"; do
+  launcher_name="$(basename "$launcher_script" .bash)"
+
+  if prompt_yes_no "Install ${launcher_name} launcher?"; then
+    log_step "Install ${launcher_name} launcher..."
+    bash "$launcher_script" "$DEFAULT_USER"
+  else
+    log_step "Skip ${launcher_name} launcher"
+  fi
+done
 
 # ---------------------------------------------------
 # Summary
