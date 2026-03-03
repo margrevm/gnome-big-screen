@@ -60,3 +60,13 @@ pin_favorite_app() {
     sudo -u "$user" dbus-run-session gsettings set org.gnome.shell favorite-apps "$new" || true
   fi
 }
+
+unpin_favorite_app() {
+  local desktop_entry="$1"
+  local user="${2:-$DEFAULT_USER}"
+  local cur new
+
+  cur=$(sudo -u "$user" dbus-run-session gsettings get org.gnome.shell favorite-apps 2>/dev/null || echo "[]")
+  new=$(echo "$cur" | sed -E "s/'$desktop_entry',?[[:space:]]*//g; s/,[[:space:]]*]/]/g; s/\\[[[:space:]]*,/[/g")
+  sudo -u "$user" dbus-run-session gsettings set org.gnome.shell favorite-apps "$new" || true
+}

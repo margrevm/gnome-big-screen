@@ -231,18 +231,16 @@ log_section "GNOME Extension : Just-perfection settings"
 sudo -u "$DEFAULT_USER" dbus-run-session gnome-extensions enable just-perfection-desktop@just-perfection
 
 # ---------------------------------------------------
-# Launchers
+# Default Apps
 # ---------------------------------------------------
-log_section "Installing launchers"
+log_section "Installing default apps"
 
-log_section "DEFAULT LAUNCHERS"
-
-log_step "Install chromium launcher (default)..."
+log_step "Install chromium..."
 sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
   "$SCRIPT_DIR/desktop/chromium-custom.desktop" \
   "/home/$DEFAULT_USER/.local/share/applications/chromium-custom.desktop"
 
-log_step "Install shutdown launcher (default)..."
+log_step "Install shutdown..."
 sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
   "$SCRIPT_DIR/desktop/shutdown.desktop" \
   "/home/$DEFAULT_USER/.local/share/applications/shutdown.desktop"
@@ -252,7 +250,11 @@ sudo -u "$DEFAULT_USER" dbus-run-session gsettings set org.gnome.shell favorite-
 pin_favorite_app "chromium-custom.desktop"
 pin_favorite_app "shutdown.desktop"
 
-log_section "OPTIONAL LAUNCHERS"
+# ---------------------------------------------------
+# Optional Apps
+# ---------------------------------------------------
+log_section "Installing optional apps"
+
 mapfile -t launcher_scripts < <(find "$SCRIPT_DIR/install.d/launchers" -maxdepth 1 -type f -name "*.bash" | sort)
 for launcher_script in "${launcher_scripts[@]}"; do
   launcher_name="$(basename "$launcher_script" .bash)"

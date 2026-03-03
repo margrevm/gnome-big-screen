@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Stremio
+Comment=Launch Stremio
+Exec=flatpak run com.stremio.Stremio
+Icon=stremio
+Terminal=false
+Categories=Video;AudioVideo;

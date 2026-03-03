@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Spotify
+Comment=Launch Spotify
+Exec=flatpak run com.spotify.Client
+Terminal=false
+Categories=Audio;Music;AudioVideo;
