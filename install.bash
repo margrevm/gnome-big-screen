@@ -157,6 +157,8 @@ sudo install -D -m 0644 "$SCRIPT_DIR/etc/dnf/automatic.conf" /etc/dnf/automatic.
 
 sudo systemctl enable --now dnf-automatic.timer || log_warn "Failed to enable dnf-automatic.timer"
 
+#TODO: Add snapper configuration here
+
 # ---------------------------------------------------
 # GNOME settings
 # ---------------------------------------------------
@@ -230,6 +232,17 @@ log_step "Show only mounted local disks: off"; gset set org.gnome.shell.extensio
 log_section "GNOME Extension : Just-perfection settings"
 sudo -u "$DEFAULT_USER" dbus-run-session gnome-extensions enable just-perfection-desktop@just-perfection
 
+log_step "Just Perfection - Keyboard Layout: off"; gset set org.gnome.shell.extensions.just-perfection quick-settings-keyboard-layout false
+log_step "Just Perfection - Dark Mode Toggle: off"; gset set org.gnome.shell.extensions.just-perfection quick-settings-dark-mode false
+log_step "Just Perfection - Night Light Toggle: off"; gset set org.gnome.shell.extensions.just-perfection quick-settings-night-light false
+log_step "Just Perfection - Airplane: off"; gset set org.gnome.shell.extensions.just-perfection quick-settings-airplane-mode false
+log_step "Just Perfection - Accessibility Menu: off"; gset set org.gnome.shell.extensions.just-perfection quick-settings-accessibility-menu false
+log_step "Just Perfection - World Clock: off"; gset set org.gnome.shell.extensions.just-perfection quick-settings-world-clock false
+log_step "Just Perfection - Screen Recording: off"; gset set org.gnome.shell.extensions.just-perfection quick-settings-screen-recording false
+log_step "Just Perfection - Screen Sharing: off"; gset set org.gnome.shell.extensions.just-perfection quick-settings-screen-sharing false
+log_step "Just Perfection - Weather: off"; gset set org.gnome.shell.extensions.just-perfection quick-settings-weather false
+log_step "Just Perfection - Events: off"; gset set org.gnome.shell.extensions.just-perfection quick-settings-events false
+
 # ---------------------------------------------------
 # Default Apps
 # ---------------------------------------------------
@@ -255,15 +268,19 @@ pin_favorite_app "shutdown.desktop"
 # ---------------------------------------------------
 log_section "Installing optional apps"
 
-mapfile -t launcher_scripts < <(find "$SCRIPT_DIR/install.d/launchers" -maxdepth 1 -type f -name "*.bash" | sort)
-for launcher_script in "${launcher_scripts[@]}"; do
-  launcher_name="$(basename "$launcher_script" .bash)"
+mapfile -t launcher_scripts < <(find "$SCRIPT_DIR/apps" -mindepth 2 -maxdepth 2 -type f -name "install.sh" | sort)
+if [[ ${#launcher_scripts[@]} -eq 0 ]]; then
+  log_step "No optional app installers found under $SCRIPT_DIR/apps"
+fi
 
-  if prompt_yes_no "Install ${launcher_name} launcher?"; then
-    log_step "Install ${launcher_name} launcher..."
+for launcher_script in "${launcher_scripts[@]}"; do
+  launcher_name="$(basename "$(dirname "$launcher_script")")"
+
+  if prompt_yes_no "Install ${launcher_name} app?"; then
+    log_step "Install ${launcher_name} app..."
     bash "$launcher_script" "$DEFAULT_USER"
   else
-    log_step "Skip ${launcher_name} launcher"
+    log_step "Skip ${launcher_name} app"
   fi
 done
 
