@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Jellyfin
+Comment=Launch Jellyfin
+Exec=flatpak run com.github.iwalton3.jellyfin-media-player
+Icon=com.github.iwalton3.jellyfin-media-player
+Terminal=false
+Categories=Video;AudioVideo;Network;
