@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=ARTE
+Comment=Launch ARTE
+Exec=chromium-browser --disable-translate --no-first-run --no-default-browser-check --start-fullscreen https://www.arte.tv/fr/
+Icon=arte
+Terminal=false
+Categories=Network;Video;AudioVideo;

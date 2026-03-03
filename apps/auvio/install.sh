@@ -9,8 +9,8 @@ source "$SCRIPT_DIR/common.bash"
 
 log_component_step "auvio" "Installing desktop launcher..."
 sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
-  "$APP_DIR/auvio-kiosk.desktop" \
-  "/home/$DEFAULT_USER/.local/share/applications/auvio-kiosk.desktop"
+  "$APP_DIR/auvio.desktop" \
+  "/home/$DEFAULT_USER/.local/share/applications/auvio.desktop"
 
 log_component_step "auvio" "Installing icon..."
 sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
@@ -18,5 +18,5 @@ sudo install -D -m 0644 -o "$DEFAULT_USER" -g "$DEFAULT_USER" \
   "/home/$DEFAULT_USER/.local/share/icons/hicolor/256x256/apps/auvio.png"
 
 log_component_step "auvio" "Pinning launcher to GNOME dock (if missing)..."
-pin_favorite_app "auvio-kiosk.desktop" "$DEFAULT_USER"
+pin_favorite_app "auvio.desktop" "$DEFAULT_USER"
 log_component_step "auvio" "Done."

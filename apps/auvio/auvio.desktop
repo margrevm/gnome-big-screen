@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Auvio
+Comment=Launch RTBF Auvio
+Exec=chromium-browser --disable-translate --no-first-run --no-default-browser-check --start-fullscreen https://auvio.rtbf.be/
+Icon=auvio
+Terminal=false
+Categories=Network;Video;AudioVideo;

@@ -8,10 +8,11 @@ SCRIPT_DIR="${SCRIPT_DIR:-$(cd "$APP_DIR/../.." && pwd)}"
 source "$SCRIPT_DIR/common.bash"
 
 log_component_step "vrt-max" "Unpinning launcher from GNOME dock..."
-unpin_favorite_app "vrt-max-kiosk.desktop" "$DEFAULT_USER"
+unpin_favorite_app "vrt-max.desktop" "$DEFAULT_USER"
 
 log_component_step "vrt-max" "Removing desktop launcher and icon..."
 sudo rm -f \
+  "/home/$DEFAULT_USER/.local/share/applications/vrt-max.desktop" \
   "/home/$DEFAULT_USER/.local/share/applications/vrt-max-kiosk.desktop" \
   "/home/$DEFAULT_USER/.local/share/icons/hicolor/256x256/apps/vrt-max.png"
 

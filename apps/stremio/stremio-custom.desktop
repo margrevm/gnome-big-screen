@@ -2,7 +2,7 @@
 Type=Application
 Name=Stremio
 Comment=Launch Stremio
-Exec=flatpak run com.stremio.Stremio
+Exec=flatpak run com.stremio.Stremio --full-screen
 Icon=stremio
 Terminal=false
 Categories=Video;AudioVideo;

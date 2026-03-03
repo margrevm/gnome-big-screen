@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
-Name=VacuumTube
-Comment=Launch VacuumTube
+Name=Youtube
+Comment=Launch Youtube
 Exec=flatpak run rocks.shy.VacuumTube
 Icon=yt
 Terminal=false

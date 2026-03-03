@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=VRT MAX
+Comment=Launch VRT MAX
+Exec=chromium-browser --disable-translate --no-first-run --no-default-browser-check --start-fullscreen https://www.vrt.be/vrtmax/
+Icon=vrt-max
+Terminal=false
+Categories=Network;Video;AudioVideo;
