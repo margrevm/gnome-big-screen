@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Home Assistant
+Comment=Launch Home Assistant Dashboard
+Exec=chromium-browser --password-store=basic --disable-translate --no-first-run --no-default-browser-check --start-fullscreen http://homeassistant.local:8123
+Icon=ha
+Terminal=false
+Categories=Network;HomeAutomation;
