@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Netflix
+Comment=Launch Netflix
+Exec=chromium-browser --password-store=basic --disable-translate --no-first-run --no-default-browser-check --start-fullscreen https://www.netflix.com/browse
+Icon=netflix
+Terminal=false
+Categories=Network;Video;AudioVideo;
