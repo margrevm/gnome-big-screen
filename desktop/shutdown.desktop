@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Shutdown
+Comment=Power off this computer
+Exec=gnome-session-quit --power-off --no-prompt
+Icon=system-shutdown
+Terminal=false
+Categories=System;

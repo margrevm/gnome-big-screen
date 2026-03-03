@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Chromium
+Comment=Launch Chromium Web Browser
+Exec=/usr/bin/chromium-browser --start-fullscreen --no-first-run --no-default-browser-check --password-store=basic --disable-notifications --disable-translate --disable-session-crashed-bubble %U
+Icon=chromium-browser
+Terminal=false
+Categories=Network;WebBrowser;
